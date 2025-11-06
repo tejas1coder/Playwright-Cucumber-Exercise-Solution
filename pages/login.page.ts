@@ -1,5 +1,4 @@
-import { Page } from "@playwright/test"
-import { expect } from '@cucumber/cucumber';
+import { expect, Page } from "@playwright/test"
 
 export class Login {
     private readonly page: Page
@@ -15,10 +14,7 @@ export class Login {
     }
 
     public async validateTitle(expectedTitle: string) {
-        const pageTitle = await this.page.title();
-        if (pageTitle !== expectedTitle) {
-          throw new Error(`Expected title to be ${expectedTitle} but found ${pageTitle}`);
-        }
+        await expect((await this.page.title()).toString()).toEqual(expectedTitle);
     }
 
     public async loginAsUser(userName: string) {
@@ -27,8 +23,7 @@ export class Login {
         await this.page.locator(this.loginButton).click()
     }
 
-    public async validateLoginErrorMessage(expectedMessage: string) {
-        const actualMessage = await this.page.locator(this.errorMessageField).textContent();
-        expect(actualMessage?.trim()).toBe(expectedMessage);
+    public async validateErrorMessage(errorText: string) {
+        await expect(this.page.getByText(errorText)).toBeVisible();
     }
 }
