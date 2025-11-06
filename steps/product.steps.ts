@@ -1,4 +1,4 @@
-import { Then, When } from '@cucumber/cucumber';
+import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 import { getPage } from '../playwrightUtilities';
 import { Product } from '../pages/product.page';
 import { expect } from '@playwright/test';
